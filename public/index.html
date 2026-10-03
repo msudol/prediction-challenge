@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NERIS Prediction Challenge</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1>NERIS Prediction Challenge</h1>
+      <p>
+        Guess the final number of CY2026 incidents. Closest without going over
+        wins.
+      </p>
+      <form method="post" action="/submit" id="guess-form" novalidate>
+        <label for="name">Submission name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          minlength="2"
+          maxlength="40"
+          pattern="[A-Za-z0-9 ]{2,40}"
+          autocomplete="name"
+          required
+          aria-describedby="name-help"
+        />
+        <small id="name-help"
+          >2-40 characters. Letters, numbers, and spaces only.</small
+        >
+
+        <label for="guess">Year-end incident guess</label>
+        <input
+          id="guess"
+          name="guess"
+          type="number"
+          min="20000000"
+          max="60000000"
+          step="1"
+          inputmode="numeric"
+          required
+          aria-describedby="guess-help"
+        />
+        <small id="guess-help"
+          >Enter a whole number from 20,000,000 through 60,000,000.</small
+        >
+
+        <div class="hp" aria-hidden="true">
+          <label
+            >Website<input name="website" tabindex="-1" autocomplete="off"
+          /></label>
+        </div>
+        <p id="error" role="alert"></p>
+        <button type="submit">Submit guess</button>
+      </form>
+    </main>
+  </body>
+</html>
