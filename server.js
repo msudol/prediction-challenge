@@ -6,18 +6,18 @@ const { rateLimit } = require("express-rate-limit");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const crypto = require("node:crypto");
+const {
+  port: PORT,
+  dataFile: DATA_FILE,
+  resultsUser: RESULTS_USER,
+  resultsPassword: RESULTS_PASSWORD,
+  minGuess: MIN_GUESS,
+  maxGuess: MAX_GUESS,
+  submissionsClose: SUBMISSIONS_CLOSE,
+  trustProxy: TRUST_PROXY,
+} = require("./config");
 
 const app = express();
-const PORT = Number(process.env.PORT || 3000);
-const DATA_FILE = path.resolve(
-  process.env.DATA_FILE || path.join(__dirname, "data", "guesses.csv"),
-);
-const RESULTS_USER = process.env.RESULTS_USER || "manager";
-const RESULTS_PASSWORD = process.env.RESULTS_PASSWORD;
-const MIN_GUESS = Number(process.env.MIN_GUESS || 25296099);
-const MAX_GUESS = Number(process.env.MAX_GUESS || 50000000);
-const SUBMISSIONS_CLOSE =
-  process.env.SUBMISSIONS_CLOSE || "2026-12-01T00:00:00-05:00";
 const NAME_RE = /^[A-Za-z0-9 ]{2,40}$/;
 
 if (!RESULTS_PASSWORD || RESULTS_PASSWORD.length < 16) {
@@ -41,7 +41,7 @@ if (Number.isNaN(Date.parse(SUBMISSIONS_CLOSE))) {
 
 app.disable("x-powered-by");
 // Set TRUST_PROXY=1 only when deployed behind exactly one trusted reverse proxy.
-if (process.env.TRUST_PROXY === "1") app.set("trust proxy", 1);
+if (TRUST_PROXY) app.set("trust proxy", 1);
 app.use(
   helmet({
     contentSecurityPolicy: {
